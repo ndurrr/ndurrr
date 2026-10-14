@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Nest</title>
+<meta name="apple-mobile-web-app-title" content="Nest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: radial-gradient(60% 40% at 50% 35%, #2a2110, #0b0b0c 70%); color: #ecebe6; font: 14px/1.6 ui-monospace, "SF Mono", Menlo, monospace; text-align: center; padding: 24px; box-sizing: border-box; }
+  .f { font-size: 72px; filter: drop-shadow(0 0 18px rgba(217,164,65,.55)); transform: rotate(-8deg); }
+  h1 { font-size: 13px; letter-spacing: .3em; text-transform: uppercase; margin: 18px 0 6px; }
+  h1 b { color: #d9a441; font-weight: 600; }
+  p { color: #8b8a86; max-width: 34ch; margin: 8px auto; }
+  a.go { display: inline-block; margin-top: 18px; padding: 12px 22px; border-radius: 14px; background: #d9a441; color: #0b0b0c; text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <div class="f" aria-hidden="true">🪶</div>
+  <h1>The <b>Nest</b></h1>
+  <p id="msg">Add this page to your home screen. Share, then "Add to Home Screen". Tapping the 🪶 opens the Nest.</p>
+  <a class="go" id="go" href="https://claude.ai/artifact/WJKYr1n46wUmV1EmSx25Ln">Open the Nest</a>
+</main>
+<script>
+  // Launched from the home screen: go straight into the Nest.
+  var NEST = "https://claude.ai/artifact/WJKYr1n46wUmV1EmSx25Ln";
+  var standalone = window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches || /[?&]app=1/.test(location.search);
+  if (standalone) { document.getElementById("msg").textContent = "Opening the Nest…"; location.replace(NEST); }
+</script>
+</body>
+</html>
