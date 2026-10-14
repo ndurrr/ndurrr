@@ -1,10 +1,12 @@
 {
   "name": "The Nest",
   "short_name": "Nest",
-  "description": "Ous's workspace for building the future self.",
+  "description": "Hilal's one quest for today, and the door into the Nest.",
+  "id": "/ndurrr/nest/",
   "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0b0b0c",
   "theme_color": "#0b0b0c",
   "icons": [
