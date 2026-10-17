@@ -1,7 +1,7 @@
 {
-  "date": "2026-10-16",
-  "quest": "Call Annika, invite her to Level 2, and ask if Triin would join her.",
-  "pillar": "sell",
-  "line": "if it goes quiet, give it a day and move on.",
+  "date": "2026-10-17",
+  "quest": "Get outside, move a bit, and keep the laptop shut till lunch.",
+  "pillar": "body",
+  "line": "the week was enough. nothing's chasing you today.",
   "from": "Hilal"
 }
