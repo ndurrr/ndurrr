@@ -8,33 +8,124 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0b0b0c">
+<meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f3ef" media="(prefers-color-scheme: light)">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/svg+xml" href="mark.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="manifest" href="manifest.webmanifest">
 <style>
-  :root { color-scheme: dark; }
-  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: radial-gradient(60% 40% at 50% 35%, #2a2110, #0b0b0c 70%); color: #ecebe6; font: 14px/1.6 ui-monospace, "SF Mono", Menlo, monospace; text-align: center; padding: 24px; box-sizing: border-box; }
-  .f { width: 96px; height: 96px; margin: 0 auto; filter: drop-shadow(0 0 14px rgba(230,167,64,.45)); }
-  h1 { font-size: 13px; letter-spacing: .3em; text-transform: uppercase; margin: 18px 0 6px; }
-  h1 b { color: #d9a441; font-weight: 600; }
-  p { color: #8b8a86; max-width: 34ch; margin: 8px auto; }
-  a.go { display: inline-block; margin-top: 18px; padding: 12px 22px; border-radius: 14px; background: #d9a441; color: #0b0b0c; text-decoration: none; font-weight: 600; }
+  :root { --bg:#0b0b0c; --card:#141310; --ink:#ecebe6; --dim:#8b8a86; --rule:#26241f; --gold:#e6a740; --glow:#2a2110; --pc:var(--gold); color-scheme:dark;
+    --f: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace; }
+  @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --bg:#f4f3ef; --card:#fff; --ink:#191917; --dim:#6f6e69; --rule:#e5e3dc; --gold:#9a6512; --glow:#f3e3c2; color-scheme:light; } }
+  :root[data-theme="light"] { --bg:#f4f3ef; --card:#fff; --ink:#191917; --dim:#6f6e69; --rule:#e5e3dc; --gold:#9a6512; --glow:#f3e3c2; color-scheme:light; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: radial-gradient(70% 45% at 50% 18%, var(--glow), var(--bg) 72%) fixed, var(--bg); color: var(--ink); font: 14px/1.6 var(--f);
+    -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+    padding: calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 22px); display: flex; flex-direction: column; }
+  header { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; font-weight: 600; }
+  .brand img { width: 26px; height: 26px; filter: drop-shadow(0 0 8px rgba(230,167,64,.45)); }
+  .brand b { color: var(--gold); font-weight: 600; }
+  .mode { width: 34px; height: 34px; border-radius: 12px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); display: grid; place-items: center; cursor: pointer; }
+  .mode svg { width: 16px; height: 16px; }
+  main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px; max-width: 520px; width: 100%; margin: 0 auto; }
+  .eyebrow { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+  .eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 10px var(--pc); }
+  .quest { position: relative; padding: 22px 22px 22px 26px; border-radius: 20px; background: linear-gradient(130deg, color-mix(in srgb, var(--pc) 12%, var(--card)), var(--card) 60%);
+    border: 1px solid var(--rule); box-shadow: 0 18px 40px -26px rgba(0,0,0,.7); overflow: hidden; animation: up .5s cubic-bezier(.2,.8,.2,1) both; }
+  .quest::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pc); box-shadow: 0 0 18px 2px color-mix(in srgb, var(--pc) 50%, transparent); }
+  .quest p { margin: 10px 0 0; font-size: clamp(19px, 5.4vw, 24px); line-height: 1.35; font-weight: 500; letter-spacing: -.01em; text-wrap: balance; }
+  .quest small { display: block; margin-top: 10px; color: var(--dim); font-size: 12.5px; }
+  .anchor { color: var(--dim); font-size: 12px; text-align: center; }
+  .anchor b { color: var(--ink); font-weight: 500; }
+  .go { display: block; text-align: center; padding: 16px; border-radius: 16px; background: var(--gold); color: var(--bg); font-weight: 600; text-decoration: none; letter-spacing: .02em;
+    box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--gold) 80%, transparent); transition: transform .14s; }
+  .go:active { transform: scale(.97); }
+  .foot { text-align: center; font-size: 12px; color: var(--dim); }
+  .foot a { color: var(--dim); }
+  #install { display: none; }
+  @keyframes up { from { opacity: 0; transform: translateY(8px); } }
 </style>
 </head>
 <body>
+<header>
+  <div class="brand"><img src="mark.svg" alt="">The <b>Nest</b></div>
+  <button class="mode" id="mode" aria-label="Light or dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+</header>
 <main>
-  <img class="f" src="mark.svg" alt="">
-  <h1>The <b>Nest</b></h1>
-  <p id="msg">Add this page to your home screen. Share, then "Add to Home Screen". Tapping the gold quill opens the Nest.</p>
-  <a class="go" id="go" href="https://claude.ai/artifact/WJKYr1n46wUmV1EmSx25Ln">Open the Nest</a>
+  <section class="quest" id="quest">
+    <div class="eyebrow"><i></i><span>Hilal says</span></div>
+    <p id="q">One thing today.</p>
+    <small id="line"></small>
+  </section>
+  <a class="go" id="go" href="https://claude.ai/artifact/WJKYr1n46wUmV1EmSx25Ln">Enter the Nest</a>
+  <div class="anchor" id="anchor"></div>
 </main>
+<div class="foot"><span id="install">Share, then "Add to Home Screen". · </span><a href="widget/">Add the widget</a></div>
 <script>
-  // Launched from the home screen: go straight into the Nest.
-  var NEST = "https://claude.ai/artifact/WJKYr1n46wUmV1EmSx25Ln";
-  var standalone = window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches || /[?&]app=1/.test(location.search);
-  if (standalone) { document.getElementById("msg").textContent = "Opening the Nest…"; location.replace(NEST); }
+  var DATA = "https://raw.githubusercontent.com/ndurrr/ndurrr/refs/heads/claude/project-thread-46cnd6/nest/today.json";
+  var PC = { build:"#6ea8ff", sell:"#e6a740", body:"#6fcf97", mind:"#b49cff", wealth:"#4fd1c5", roam:"#ff8a6b" };
+  var root = document.documentElement;
+  try { var th = localStorage.getItem("nest-theme"); if (th) root.dataset.theme = th; } catch (e) {}
+  document.getElementById("mode").onclick = function () {
+    var dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("nest-theme", root.dataset.theme); } catch (e) {}
+  };
+  var standalone = navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
+  if (!standalone) document.getElementById("install").style.display = "inline";
+
+  function londonDate(d) { return d.toLocaleDateString("en-CA", { timeZone: "Europe/London" }); }
+  function theme(d) {
+    var w = new Date(d.toLocaleString("en-US", { timeZone: "Europe/London" })).getDay();
+    if (w === 1 || w === 3 || w === 5) return { quest: "Call one warm Grey Hawk lead and just listen.", pillar: "sell", line: "sales day." };
+    if (w === 2 || w === 4) return { quest: "Unblock one thing for the Pulse Wrld team.", pillar: "build", line: "build day." };
+    return { quest: "Train first, then be with your people.", pillar: "body", line: "rest is part of the work." };
+  }
+  function show(t) {
+    document.getElementById("q").textContent = t.quest;
+    document.getElementById("line").textContent = t.line || "";
+    document.getElementById("quest").style.setProperty("--pc", PC[t.pillar] || "var(--gold)");
+  }
+  var now = new Date();
+  show(theme(now));
+  fetch(DATA + "?t=" + Math.floor(now.getTime() / 6e5), { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(function (t) { if (t && t.quest && t.date === londonDate(now)) show(t); })
+    .catch(function () {});
+
+  // Next prayer, Muslim World League (Fajr 18°, Isha 17°), London. Same maths as the Nest.
+  var RAD = Math.PI / 180, dsin = function (x) { return Math.sin(x * RAD); }, dcos = function (x) { return Math.cos(x * RAD); }, dtan = function (x) { return Math.tan(x * RAD); },
+    dasin = function (x) { return Math.asin(x) / RAD; }, dacos = function (x) { return Math.acos(x) / RAD; }, datan2 = function (y, x) { return Math.atan2(y, x) / RAD; }, dacot = function (x) { return Math.atan(1 / x) / RAD; },
+    fixA = function (a) { return a - 360 * Math.floor(a / 360); }, fixH = function (a) { return a - 24 * Math.floor(a / 24); };
+  var C = { lat: 51.5074, lng: -0.1278 };
+  function times(y, m, d) {
+    var Y = y, M = m; if (M <= 2) { Y--; M += 12; } var A = Math.floor(Y / 100), B = 2 - A + Math.floor(A / 4);
+    var jd = Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + B - 1524.5 - C.lng / 360;
+    function sun(j) { var D = j - 2451545, g = fixA(357.529 + .98560028 * D), q = fixA(280.459 + .98564736 * D), L = fixA(q + 1.915 * dsin(g) + .020 * dsin(2 * g)), e = 23.439 - .00000036 * D; var RA = fixH(datan2(dcos(e) * dsin(L), dcos(L)) / 15); return { decl: dasin(dsin(e) * dsin(L)), eqt: q / 15 - RA }; }
+    function mid(t) { return fixH(12 - sun(jd + t).eqt); }
+    function ang(a, t, ccw) { var dc = sun(jd + t).decl, n = mid(t); var T = dacos((-dsin(a) - dsin(dc) * dsin(C.lat)) / (dcos(dc) * dcos(C.lat))) / 15; return n + (ccw ? -T : T); }
+    function asr(f, t) { var dc = sun(jd + t).decl; return ang(-dacot(f + dtan(Math.abs(C.lat - dc))), t); }
+    var T = { Fajr: ang(18, 5 / 24, true), sunrise: ang(.833, 6 / 24, true), Dhuhr: mid(.5), Asr: asr(1, 13 / 24), Maghrib: ang(.833, .75), Isha: ang(17, .75) };
+    var night = 24 - (T.Maghrib - T.sunrise);
+    if (isNaN(T.Fajr) || T.sunrise - T.Fajr > 18 / 60 * night) T.Fajr = T.sunrise - 18 / 60 * night;
+    if (isNaN(T.Isha) || T.Isha - T.Maghrib > 17 / 60 * night) T.Isha = T.Maghrib + 17 / 60 * night;
+    var base = Date.UTC(y, m - 1, d), out = [];
+    ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].forEach(function (k) { out.push([k, new Date(base + (T[k] - C.lng / 15) * 3600e3)]); });
+    return out;
+  }
+  function anchor() {
+    var n = new Date(), p = londonDate(n).split("-").map(Number), list = times(p[0], p[1], p[2]), next = null;
+    for (var i = 0; i < list.length; i++) if (list[i][1] > n) { next = list[i]; break; }
+    if (!next) { var tm = londonDate(new Date(n.getTime() + 864e5)).split("-").map(Number); next = times(tm[0], tm[1], tm[2])[0]; }
+    var at = next[1].toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" });
+    document.getElementById("anchor").innerHTML = "Next anchor <b>" + next[0] + " " + at + "</b>";
+  }
+  anchor(); setInterval(anchor, 60e3);
+
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});
 </script>
 </body>
 </html>
