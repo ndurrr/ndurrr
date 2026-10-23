@@ -1,5 +1,9 @@
 # The Nest launcher
 
-A tiny page that puts the gold Quill icon on your phone's home screen and opens the Nest.
+The Nest's home on your phone. It opens instantly, shows Hilal's one quest for today and the next prayer, then one tap takes you into the Nest.
 
-Live at https://ndurrr.github.io/ndurrr/nest/ once GitHub Pages is switched on for this repo.
+- `index.html`: the home-screen app (Share, then Add to Home Screen). Works offline through `sw.js`.
+- `today.json`: Hilal's quest for the day. A morning routine rewrites it after the Hilal note goes out.
+- `widget.js`: the Scriptable widget (home screen and lock screen). `widget/` is the setup page and `widget/nest.js` the one-time loader.
+
+Live at https://ndurrr.github.io/ndurrr/nest/
